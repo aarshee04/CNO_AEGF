@@ -1,0 +1,56 @@
+1. Check if cron daemon is running
+    sudo service cron status
+    or
+    sudo /etc/init.d/cron status
+2. Start cron daemon
+    sudo service cron start
+    or
+    sudo /etc/init.d/cron start
+3. To start cron service automatically after reboot
+    sudo update-rc.d cron defaults
+4. Schedule jobs by adding entries to crontab file
+    /var/spool/cron/crontabs/<loggedUser> (gubbi)
+
+To install pymqi (python MQ package):
+-------------------------------------
+1. Download the MQ client
+    9.1.0.15-IBM-MQC-UbuntuLinuxX64.tar.gz
+2. Untar MQ cient installable
+    tar -xvf ~/9.1.0.15-IBM-MQC-UbuntuLinuxX64.tar.gz -C ~/MQ_Client
+3. Accept license
+    sudo ~/MQ_Client/mqlicense.sh -text_only
+4. Navigate to the directory /etc/apt/sources.list.d (as sudo)
+    > create a .list file with a name like ibmmq-install.list
+    > add the below line
+        deb [trusted=yes] file:/home/gubbi/MQ_Client ./
+5. sudo apt update
+6. Install the following packages
+    ibmmq-runtime_9.1.0.15_amd64.deb
+    ibmmq-client_9.1.0.15_amd64.deb
+    ibmmq-sdk_9.1.0.15_amd64.deb
+
+    ex. sudo dpkg -i ibmmq-runtime_9.1.0.15_amd64.deb
+        OR
+        sudo apt install ibmmq-runtime_9.1.0.15_amd64.deb
+7. Add user to mqm group
+    sudo adduser gubbi mqm
+8. Setup MQ environment
+    . /opt/mqm/bin/setmqenv -s
+9. Add /opt/mqm/bin to user PATH in profile
+10. If you enconter error - ImportError: libmqic_r.so: cannot open shared object file: No such file or directory
+    find /opt/mqm/ -name 'libmqic_r.so'
+
+    sudo ln -s /opt/mqm/lib64/libmq* /usr/lib64/
+    ll /usr/lib64/libmq*
+    
+    sudo ln -s /opt/mqm/lib/libmq* /usr/lib/
+    ll /usr/lib/libmq*
+
+    OR
+
+    echo "/opt/mqm/lib64" >> /etc/ld.so.conf.d/libc.conf
+    echo "/opt/mqm/lib" >> /etc/ld.so.conf.d/libc.conf
+    ldconfig
+
+11. Reboot wsl
+    wsl --shutdown

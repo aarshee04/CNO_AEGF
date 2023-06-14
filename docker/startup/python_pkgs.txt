@@ -1,0 +1,6 @@
+pandas
+pymssql
+requests
+pymqi
+python-crontab
+croniter

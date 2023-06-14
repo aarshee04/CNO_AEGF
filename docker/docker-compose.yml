@@ -1,0 +1,13 @@
+version: "3"
+services:
+    py_cron:
+        image: "python-cron:1.0"
+        container_name: PY_CRON
+        volumes:
+            - ./python:/var/scripts/python/
+            - /home/${USER}/python/reports:/var/reports
+        restart: unless-stopped
+networks:
+  default: 
+    name: int_local_env
+    external: true

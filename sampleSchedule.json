@@ -1,0 +1,36 @@
+{
+    "_id": "647999b8b8aa3316b4de4377",
+    "group_id": 816,
+    "sub_group_id": 817,
+    "output": {
+        "type": 0,
+        "options": {
+            "header": false,
+            "delimiter": "~",
+            "text_delimiter": "'"
+        },
+        "aggregate": false
+    },
+    "filter": {
+        "status": [
+            1,
+            3
+        ],
+        "days": -30
+    },
+    "schedule": {
+        "type": 2,
+        "executions": [
+            {
+                "hour": 11,
+                "min": 29,
+                "dom": 23,
+                "dow": 0,
+                "month": 11,
+                "cron": "0 11 29 11 23 ?"
+            }
+        ],
+        "holidays": false
+    },
+   "holiday": false
+}
