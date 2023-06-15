@@ -4,3 +4,4 @@ requests
 pymqi
 python-crontab
 croniter
+psutil

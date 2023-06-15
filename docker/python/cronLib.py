@@ -24,7 +24,7 @@ def scheduleCronjob(cron, id="CRS_Billing"):
         cron.remove(job)
         cron.write()
 
-    job = cron.new(command="/usr/bin/python3 /home/gubbi/python/test.py", comment=id)
+    job = cron.new(command="python3 /home/gubbi/python/test.py", comment=id)
     job.minute.every(1)
     cron.write()
 

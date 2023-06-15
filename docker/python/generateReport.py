@@ -10,9 +10,10 @@ props = configparser.ConfigParser()
 props.read("crs.properties")
 
 baseUrl = props.get("API", "BASE_URL")
+reportDir = props.get("APP", "REPORTS_DIR")
 
 curTime = str(datetime.now().strftime("%Y-%m-%dT%H.%M.%S"))
-outFile = f"/var/reports/PolicyReport_{curTime}.csv"
+outFile = f"{reportDir}/PolicyReport_{curTime}.csv"
 
 id = sys.argv[1] if len(sys.argv) >= 2 else ""
 

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-crs_base_dir="/mnt/c/GUBBI/BoxSync/CRS"
+sync_dir="/mnt/c/GUBBI/BoxSync/PYTHON_CNO"
 
-cp ~/python/*.py ~/CRS_LNK
-cp ~/python/*.properties ~/CRS_LNK
-cp ~/python/*.json ~/CRS_LNK
-cp ~/python/*.sh ~/CRS_LNK
-cp ~/python/how2SetupCronUbuntu.txt ~/CRS_LNK
+cp ~/python/*.py $sync_dir
+cp ~/python/*.properties $sync_dir
+cp ~/python/*.json $sync_dir
+cp ~/python/*.sh $sync_dir
+cp ~/python/how2SetupCronUbuntu.txt $sync_dir
 
-mkdir -p $crs_base_dir/docker/python $crs_base_dir/docker/startup
+mkdir -p $sync_dir/docker/python $sync_dir/docker/startup
 
-cp ~/python/docker/docker* $crs_base_dir/docker
-cp ~/python/docker/python/* $crs_base_dir/docker/python
-cp ~/python/docker/startup/* $crs_base_dir/docker/startup
+cp ~/python/docker/docker* $sync_dir/docker
+cp ~/python/docker/python/* $sync_dir/docker/python
+cp ~/python/docker/startup/* $sync_dir/docker/startup
