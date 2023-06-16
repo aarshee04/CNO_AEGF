@@ -3,11 +3,14 @@ import configparser
 import csv
 import requests as rest
 import pymqi
+import os
+
+scriptDir = os.path.dirname(os.path.abspath(__file__))
 
 def connectToSqlSvr():
     # reading properties files
     props = configparser.ConfigParser()
-    props.read("crs.properties")
+    props.read(f"{scriptDir}/crs.properties")
 
     sqlSection = "SQLSVR"
     dbHost = props.get(sqlSection, "HOST")
@@ -22,7 +25,7 @@ def connectToSqlSvr():
 def getQmConnection():
     # reading properties files
     props = configparser.ConfigParser()
-    props.read("crs.properties")
+    props.read(f"{scriptDir}/crs.properties")
 
     mqSection = "IBM_MQ"
     qm = props.get(mqSection, "QM")

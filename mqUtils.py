@@ -3,10 +3,13 @@ import sys
 import json
 import configparser
 import commonLib as comlib
+import os
+
+scriptDir = os.path.dirname(os.path.abspath(__file__))
 
 # reading properties files
 props = configparser.ConfigParser()
-props.read("crs.properties")
+props.read(f"{scriptDir}/crs.properties")
 
 mqSection = "IBM_MQ"
 q = props.get(mqSection, "QUEUE")
@@ -14,7 +17,7 @@ q = props.get(mqSection, "QUEUE")
 arg = (lambda: "GET", lambda: sys.argv[1])[len(sys.argv) >= 2]()
 argl = arg.split("=")
 oper = argl[0].upper()
-inFile = (lambda: "sampleSchedule.json", lambda: argl[1])[len(argl) == 2]()
+inFile = (lambda: f"{scriptDir}/sampleSchedule.json", lambda: argl[1])[len(argl) == 2]()
 
 try:
     qmgr = comlib.getQmConnection()

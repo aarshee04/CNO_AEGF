@@ -40,7 +40,7 @@ for sig in sigList:
     signal.signal(signal.SIGINT, signalHandler)
 
 props = configparser.ConfigParser()
-props.read("crs.properties")
+props.read(f"{scriptDir}/crs.properties")
 
 mqSection = "IBM_MQ"
 q = props.get(mqSection, "QUEUE")
