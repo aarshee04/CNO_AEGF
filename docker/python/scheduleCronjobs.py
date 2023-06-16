@@ -58,28 +58,32 @@ gmo.WaitInterval = int(wait)
 
 keepRunning = True
 
-qmgr = comlib.getQmConnection()
-queue = pymqi.Queue(qmgr, q)
+try:
+    qmgr = comlib.getQmConnection()
+    queue = pymqi.Queue(qmgr, q)
 
-while keepRunning:
-    try:
-        jsonStr = queue.get(None, md, gmo)
-        msg = json.loads(jsonStr)
+    while keepRunning:
+        try:
+            jsonStr = queue.get(None, md, gmo)
+            msg = json.loads(jsonStr)
 
-        if msg:
-            schedule(msg)
-        
-        # Reset the MsgId, CorrelId & GroupId so that we can reuse
-        md.MsgId = pymqi.CMQC.MQMI_NONE
-        md.CorrelId = pymqi.CMQC.MQCI_NONE
-        md.GroupId = pymqi.CMQC.MQGI_NONE
-    except pymqi.MQMIError as err:
-        if err.comp == pymqi.CMQC.MQCC_FAILED and err.reason == pymqi.CMQC.MQRC_NO_MSG_AVAILABLE:
-            print("No message available to process")
-            pass
-        else:
-            print(f"MQ GET failed: {err}")
+            if msg:
+                schedule(msg)
+            
+            # Reset the MsgId, CorrelId & GroupId so that we can reuse
+            md.MsgId = pymqi.CMQC.MQMI_NONE
+            md.CorrelId = pymqi.CMQC.MQCI_NONE
+            md.GroupId = pymqi.CMQC.MQGI_NONE
+        except pymqi.MQMIError as err:
+            if err.comp == pymqi.CMQC.MQCC_FAILED and err.reason == pymqi.CMQC.MQRC_NO_MSG_AVAILABLE:
+                print("No message available to process")
+                pass
+            else:
+                print(f"MQ GET failed: {err}")
+except pymqi.MQMIError as err:
+    print(f"Error connecting to Queue Manager: {err}")
 
-if qmgr.is_connected:
-    queue.close()
-    qmgr.disconnect()
+# if error connecting to QM, no point in disconnecting
+# if qmgr and qmgr.is_connected:
+#     queue.close()
+#     qmgr.disconnect()
