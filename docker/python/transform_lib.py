@@ -1,5 +1,5 @@
 
-def transform(val, column):
+def transform(val, column, ssn_xref, lob_xref):
     retVal = str(val)
 
     if "transformations" in column:
@@ -9,9 +9,11 @@ def transform(val, column):
             elif trans["function"] == "trim":
                 retVal = trim(retVal, trans)
             elif trans["function"] == "ssn_lookup":
-                retVal = ssnLookup(retVal, trans)
+                retVal = ssnLookup(retVal, trans, ssn_xref)
             elif trans["function"] == "lob_lookup":
-                retVal = lobLookup(retVal, trans)
+                retVal = lobLookup(retVal, trans, lob_xref)
+            elif trans["function"] == "deduction_lookup":
+                retVal = deductionLookup(retVal, trans, lob_xref)
 
     return retVal
 
@@ -41,12 +43,26 @@ def trim(val, transform):
     
     return retVal
 
-def ssnLookup(val, transform):
-    retVal = val
+def ssnLookup(key, transform, ssn_xref):
+    retVal = key
     
+    if(key in ssn_xref):
+        retVal = ssn_xref[key]
+
     return retVal
 
-def lobLookup(val, transform):
-    retVal = val
+def lobLookup(key, transform, lob_xref):
+    retVal = key
     
+    if(key in lob_xref):
+        retVal = lob_xref[key]["code"]
+
+    return retVal
+
+def deductionLookup(key, transform, lob_xref):
+    retVal = key
+    
+    if(key in lob_xref):
+        retVal = lob_xref[key]["deduction"]
+
     return retVal

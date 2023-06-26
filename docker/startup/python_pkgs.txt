@@ -5,3 +5,5 @@ pymqi
 python-crontab
 croniter
 psutil
+pymongo
+openpyxl

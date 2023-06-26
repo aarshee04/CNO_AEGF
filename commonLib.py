@@ -4,6 +4,7 @@ import csv
 import requests as rest
 import pymqi
 import os
+import pymongo as mongo
 
 scriptDir = os.path.dirname(os.path.abspath(__file__))
 
@@ -40,6 +41,16 @@ def getQmConnection():
 
     return qmgr
 
+def getMongoConnection():
+    props = configparser.ConfigParser()
+    props.read(f"{scriptDir}/crs.properties")
+
+    section = "MONGO"
+    mhost = props.get(section, "HOST")
+    mport = int(props.get(section, "PORT"))
+
+    return mongo.MongoClient(mhost, mport)
+    
 def getApiCall(url):
     resp = rest.get(url)
     return resp.json() if (resp.status_code >= 200 and resp.status_code < 300) else ""

@@ -1,12 +1,14 @@
 from croniter import croniter as ci
 from datetime import datetime as dt
+from crontab import CronTab
 
 # crontab file location - /var/spool/cron/crontab/<user>
 
-def listCronjobs(cron):
-    print("List of cron jobs:")
-    print("------------------")
+def getCron():
+    cront = CronTab(user = True)
+    return cront
 
+def listCronjobs(cron):
     for job in cron:
         # to access the comment id of the cronjob
         #print(job.comment)
@@ -35,22 +37,25 @@ def delAllCronjobs(cron):
 
     print("All cron jobs deleted")
 
-def delCronJob(cron, id):
+def delCronJob(cron, id, logger):
     job = findCronjobById(cron, id)
 
     if job:
         cron.remove(job)
         cron.write()
-        print(f"Cron job with matching id deleted")
+        logger.info(f"Cron job with matching id {id} deleted ...")
     else:
-        print("No matching job found")
+        logger.info(f"No matching cron job found for id {id} ...")
 
-def nextRunOfCronjob(cron, id):
+def nextRunOfCronjob(cron, id, logger):
     job = findCronjobById(cron, id)
 
     if job:
         jobSpec = " ".join(list(str(job).split(" "))[:5])
         iter = ci(jobSpec, dt.now())
-        print(f"Job's next run is scheduled at {iter.get_next(dt)}")
+        #print(f"Job's next run is scheduled at {iter.get_next(dt)}")
+        return iter.get_next(dt)
     else:
-        print("No matching job found")    
+        logger.info("No matching job found to get the next scheduled run ...")    
+
+    return None

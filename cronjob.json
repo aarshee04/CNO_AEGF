@@ -1,0 +1,14 @@
+{
+    "ProgressId": "6494d399a673ff81d3f85e69",
+    "UserId": "6238e0b00b682bec25538e5e",
+    "LoginCode": "demo",
+    "Operation": 24,
+    "Arguments": {
+        "id": "647999b8b8aa3316b4de4377",
+        "cron": "0 20 * * 1,2,5",
+        "script": "cron_update.py"
+    },
+    "RequestId":"None",
+    "Record": "None",
+    "Module": "AEGF"
+}
