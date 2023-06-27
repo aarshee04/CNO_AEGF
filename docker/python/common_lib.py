@@ -118,6 +118,16 @@ def update_execution(report_id: str, data: dict):
     }})
     return result
 
+def update_nextrun(report_id: str, next_schedule: str):
+    conn = mqalib.get_mongo_db()
+    record_id = ObjectId(report_id)
+    mongo_coll = conn[definition_collection_name]
+    record = mongo_coll.find_one({"_id": record_id})
+
+    if record is not None:
+        result = mongo_coll.update_one({"_id": record_id}, {"$set": {"next_run": next_schedule}})
+    
+    return result
 
 def get_master_groups(populate_sub_groups: bool):
     # routine to return an array of all master group codes

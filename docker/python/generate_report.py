@@ -194,15 +194,21 @@ def main():
 
     global report_id
     report_id = args.id[0]
+    nextRun = None
 
     # checking if this is one time report generation (ex. following holiday)
     # cron job entry for one time report generation should be deleted after the job is run
+    cront = cronlib.getCron()
+
     if "_" in report_id:
         # delete the job after one time report generation
         logger.info(f"Deleting cronjob entry created for one time report generation for id {report_id} ...")
-        cronlib.delCronJob(cronlib.getCron(), report_id, logger)
+        cronlib.delCronJob(cront, report_id, logger)
 
         report_id = report_id.split("_")[0]
+    else:
+        # getting the next run of the job
+        nextRun = cronlib.nextRunOfCronjob(cront, report_id, logger)
 
     logger.info(f"Report Generation for Id {report_id} Started...")
 
@@ -216,6 +222,9 @@ def main():
         logger.info("Initializing Connection to Mongo ...")
         mongo_client, mongo_db = comlib.connectMongo()
         mqalib.init(mongo_client, mongo_db)
+
+        if nextRun is not None:
+            comlib.update_nextrun(report_id, nextRun)
 
         # check for a progress record
         if args.progress_id is not None:
