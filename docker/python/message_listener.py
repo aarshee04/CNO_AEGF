@@ -14,9 +14,12 @@ import subprocess
 import pymqi
 import json
 from colorama import Fore
+import os
 
 import common_lib as comlib
 import mqa_common as mqalib
+
+scriptDir = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     # routine to begin listening on the queue
@@ -48,7 +51,7 @@ def handle_message(message):
     # now see if there any arguments that are not the script name
     for key, value in json_data["Arguments"].items():
         if (key == "script"):
-            script_name = value
+            script_name = f"{scriptDir}/{value}"
         else:
             process_args.append(f"--{key}={value}")
 

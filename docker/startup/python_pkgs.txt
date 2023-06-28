@@ -7,3 +7,4 @@ croniter
 psutil
 pymongo
 openpyxl
+colorama

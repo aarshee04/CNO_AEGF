@@ -13,7 +13,6 @@
 """
 
 import argparse
-import logging
 import pandas as pd
 import csv
 from datetime import datetime, timedelta
@@ -164,14 +163,14 @@ def create_output(result):
         csv_parms = parse_csv_options(options)
         out_path += ".csv"
         df.to_csv(out_path, **csv_parms)
-    if output["type"] == 1:
+    elif output["type"] == 1:
         # xls output
         out_path += ".xlsx"
         df.to_excel(out_path, index=False, header=header)
-    if output["type"] == 2:
+    elif output["type"] == 2:
         out_path += ".txt"
         df.to_csv(out_path, sep='\t', index=False, header=header)
-    if output["type"] == 3:
+    elif output["type"] == 3:
         out_path += ".json"
         df.to_json(out_path, orient='records')
 
@@ -294,12 +293,13 @@ def main():
                 # update the progress
                 caption = column["caption"]
                 desc = "Processing Column {caption}...".format(caption=caption)
-                print(desc)
                 perc = 10 + (60 * count / total)
+
                 if update_progress:
                     mqalib.step_cli(progress_record, "Processing...", desc, perc)
 
                 format_str = ""
+
                 for src in column["data_source"]:
                     if src[0] == "$":
                         # if column is LOB and if transformation has lob or deduction lookup
@@ -318,6 +318,7 @@ def main():
                     caption=caption)
                 print(error_msg, file=sys.stderr)
                 logger.exception(error_msg, e)
+
                 if update_progress:
                     mqalib.step_cli(progress_record, "Processing...", error_msg, perc)
         if errors > 0:
