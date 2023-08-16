@@ -1,0 +1,12 @@
+1. Check if cron daemon is running
+    sudo service cron status
+    or
+    sudo /etc/init.d/cron status
+2. Start cron daemon
+    sudo service cron start
+    or
+    sudo /etc/init.d/cron start
+3. To start cron service automatically after reboot
+    sudo update-rc.d cron defaults
+4. Schedule jobs by adding entries to crontab file
+    /var/spool/cron/crontabs/<loggedUser> (gubbi)
